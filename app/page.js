@@ -1,95 +1,142 @@
+// 'use client';
 import Image from "next/image";
-import styles from "./page.module.css";
+// import styles from "./page.module.css";
+
+// import { useEffect } from "react";
+
+import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import { db } from "./firebase/firebase-config";
+
+// Get the collection 'products'
+const productsCollection = await collection(db, 'products');
+
+// Accesing elements on html
+const shores_list = document.getElementById('shores_list');
+// const div = document.querySelector('.quantity-modal');
+const selection_list = document.getElementById("selection_list");
+
+const x_icon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+</svg>`;
+
+export let productsArray = [];
+
+// Listen to the current collection and get changes everytime a document is updated, created or deleted
+onSnapshot(productsCollection, (snapshot)=>{
+	addProductsToList(snapshot.docs);
+});
+
+function addProductsToList(data) {
+  // Clean the list ul, array of products and the showed list
+  selection_list.innerHTML = "";
+  productsArray = [];
+  shores_list.innerHTML = "";
+
+  // Adding a default option to the select so it's the first one to see
+  let defaultOption = document.createElement('option');
+  defaultOption.innerText = "--------";
+  defaultOption.value = "default";
+  shores_list.appendChild(defaultOption);
+
+  // Add an option to the select for every document in the database
+  data.forEach(item => {
+    const product = item.data();
+    // console.log(product["name"]);
+
+    productsArray.push(product);
+
+    let option = document.createElement('option');
+    option.innerText = product["name"];
+    option.value = product["name"];
+
+    shores_list.appendChild(option);
+
+    // Show only products with quantity > 0
+    if(product["quantity"] > 0) {
+      let li = document.createElement("li");
+      li.innerHTML = `<span class="red-font">${product["quantity"]}</span><span>${product["measurement"]} de ${product["name"].toLowerCase()}.</span>`;
+
+      let span_x = document.createElement('span');
+      span_x.setAttribute('class', 'x-button__container');
+      span_x.innerHTML = x_icon;
+
+      span_x.addEventListener('click', async ()=> {
+        // Asign the product to delete
+        let productToDelete = productsArray.find(item => item["name"] == option.innerText);
+        // console.log(productToDelete);
+
+        // Give 0 to quantity so the database is updated and this product no longer will be visible
+        await updateDoc(doc(db, 'products', productToDelete["name"]), {
+          quantity: 0
+        });
+      });
+
+      li.appendChild(span_x);
+      selection_list.appendChild(li);
+    }
+  });
+}
 
 export default function Home() {
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
+    <>
+      <p className="imgs-container">
         <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+          className="banana-img"
+          src="/imgs/platano-removebg-preview.png"
+          alt="banana img"
+          width={663}
+          height={376}    
         />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+        <Image
+          className="tomato-img"
+          src="/imgs/tomate.png"
+          alt="tomato img"
+          width={512}
+          height={512}    
+        />
+      </p>
+      <main>
+        <section className="list-section">
+          <article>
+            <div>
+              <h1>GROCERIES APP</h1>
+              <p>
+                <span>Elige un producto:</span>
+                <select id="shores_list"></select>
+              </p>
+            </div>
+          </article>
+        </section>
+        <section className="selection-section">
+          <article>
+            <div>
+              <h2>Lista de Compras</h2>
+              <ul id="selection_list">
+                
+              </ul>
+            </div>
+          </article>
+        </section>
+        <section className="add-product__section">
+          <Image
+            className="cheese-img"
+            src="/imgs/queso.png"
+            alt="cheese img"
+            width={960}
+            height={960}    
+          />
+          <article>
+            <div>
+              <p>
+                <button id="add_product_btn">Agregar producto a la base de datos</button>
+              </p>
+            </div>
+          </article>
+        </section>
     </main>
+  </>
   );
 }
