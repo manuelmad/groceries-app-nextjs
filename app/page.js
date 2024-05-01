@@ -1,32 +1,25 @@
-// 'use client';
+'use client';
 import Image from "next/image";
 // import styles from "./page.module.css";
 
-// import { useEffect } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 
 import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase/firebase-config";
 
-// Get the collection 'products'
-const productsCollection = await collection(db, 'products');
+import { AddProductToDatabase } from "./AddProductToDatabase/AddProductToDatabase.js";
 
-// Accesing elements on html
-const shores_list = document.getElementById('shores_list');
-// const div = document.querySelector('.quantity-modal');
-const selection_list = document.getElementById("selection_list");
-
+// Icon to delete a product from the shopping list
 const x_icon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
 <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
 </svg>`;
 
+// Array with all products in data base
 export let productsArray = [];
 
-// Listen to the current collection and get changes everytime a document is updated, created or deleted
-onSnapshot(productsCollection, (snapshot)=>{
-	addProductsToList(snapshot.docs);
-});
-
+// Function to add all products to the dropdown list and show the products with quantity > 0 in the shopping list
 function addProductsToList(data) {
   // Clean the list ul, array of products and the showed list
   selection_list.innerHTML = "";
@@ -79,6 +72,27 @@ function addProductsToList(data) {
 }
 
 export default function Home() {
+  const [newProductDisplay, setNewProductDisplay] = useState({display:"none"});
+  // Accesing elements on DOM
+  // const shores_list = document.getElementById('shores_list');
+  // const div = document.querySelector('.quantity-modal');
+  // const selection_list = document.getElementById("selection_list");
+
+  // Event to show add new product modal
+  const addProductButtonEvent = () => {
+    setNewProductDisplay({display:"flex"});
+  }
+
+  useEffect(()=> {
+    // Get the collection 'products' from firebase
+    const productsCollection = collection(db, 'products');
+
+    // Listen to the current collection and get changes everytime a document is updated, created or deleted to update the dropdown list and the shopping list
+    onSnapshot(productsCollection, (snapshot)=>{
+      addProductsToList(snapshot.docs);
+    });
+
+  },[]);
 
   return (
     <>
@@ -131,12 +145,16 @@ export default function Home() {
           <article>
             <div>
               <p>
-                <button id="add_product_btn">Agregar producto a la base de datos</button>
+                <button id="add_product_btn" onClick={addProductButtonEvent}>Agregar producto a la base de datos</button>
               </p>
             </div>
           </article>
         </section>
     </main>
+    <AddProductToDatabase
+      newProductDisplay = {newProductDisplay}
+      setNewProductDisplay = {setNewProductDisplay}
+    />
   </>
   );
 }
