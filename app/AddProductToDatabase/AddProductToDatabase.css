@@ -79,30 +79,3 @@
 	background-color: var(--input-color);
 	border: none;
 }
-
-/* .add-product__section {
-	text-align: center;
-	position: relative;
-}
-
-.add-product__section p {
-	margin-top: 17rem;
-	border-top: 0.2rem solid var(--orange);
-	padding-top: 2rem;
-} */
-
-/* #add_product_btn {
-	width: 28rem;
-	height: 4rem;
-	border-radius: 0.5rem;
-	cursor: pointer;
-	background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%);
-	color: var(--white);
-	border: none;
-	font-weight: bold;
-}
-
-#add_product_btn:active {
-	background: var(--white);
-	color: var(--black);
-} */

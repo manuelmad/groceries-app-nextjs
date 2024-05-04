@@ -1,6 +1,6 @@
 // 'use client';
 
-import "./AddProduct.css";
+import "./AddProductToDatabase.css";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase-config";
 import { productsArray } from "../page";

@@ -9,6 +9,8 @@ import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase/firebase-config";
 
 import { AddProductToDatabase } from "./AddProductToDatabase/AddProductToDatabase.js";
+import { UpdateShoppingList } from "./UpdateShoppingList/UpdateShoppingList";
+// import { updateShoppingList } from "./UpdateShoppingList/UpdateShoppingList";
 
 // Icon to delete a product from the shopping list
 const x_icon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -18,6 +20,7 @@ const x_icon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" f
 
 // Array with all products in data base
 export let productsArray = [];
+// export const shores_list = document.getElementById('shores_list');
 
 // Function to add all products to the dropdown list and show the products with quantity > 0 in the shopping list
 function addProductsToList(data) {
@@ -71,12 +74,24 @@ function addProductsToList(data) {
   });
 }
 
+
 export default function Home() {
   const [newProductDisplay, setNewProductDisplay] = useState({display:"none"});
+  const [quantityModalDisplay, setQuantityModalDisplay] = useState({display:"none"});
+  const [currentValue, setCurrentValue] = useState('default');
   // Accesing elements on DOM
   // const shores_list = document.getElementById('shores_list');
   // const div = document.querySelector('.quantity-modal');
   // const selection_list = document.getElementById("selection_list");
+
+  // Event to show add new product modal
+  const selectProductEvent = (event) => {
+    let a = event.target.value;
+    console.log(a);
+    setCurrentValue(a);
+    console.log(currentValue);
+    setQuantityModalDisplay({display:"flex"});
+  }
 
   // Event to show add new product modal
   const addProductButtonEvent = () => {
@@ -119,7 +134,7 @@ export default function Home() {
               <h1>GROCERIES APP</h1>
               <p>
                 <span>Elige un producto:</span>
-                <select id="shores_list"></select>
+                <select id="shores_list" value={currentValue} onChange={selectProductEvent}></select>
               </p>
             </div>
           </article>
@@ -151,6 +166,12 @@ export default function Home() {
           </article>
         </section>
     </main>
+    <UpdateShoppingList
+      quantityModalDisplay = {quantityModalDisplay}
+      setQuantityModalDisplay={setQuantityModalDisplay}
+      currentValue={currentValue}
+      setCurrentValue={setCurrentValue}
+    />
     <AddProductToDatabase
       newProductDisplay = {newProductDisplay}
       setNewProductDisplay = {setNewProductDisplay}

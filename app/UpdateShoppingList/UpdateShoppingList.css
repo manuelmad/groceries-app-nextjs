@@ -1,0 +1,69 @@
+.quantity-modal {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: var(--background-shadow);
+	width: 100%;
+	height: 100vh;
+}
+
+.quantity-modal div {
+	width: 30rem;
+	height: 22rem;
+	background-color: var(--white);
+	margin: 0 auto;
+	border-radius: 0.5rem;
+	padding: 1rem;
+	font-size: var(--medium-font);
+	align-self: center;
+}
+
+.quantity-modal div p:first-child span {
+	color: red;
+}
+
+.quantity-modal div p:nth-child(2) {
+	text-align: center;
+	margin-top: 1rem;
+}
+
+.quantity-modal input {
+	width: 6rem;
+	height: 3rem;
+	border-radius: 0.5rem;
+	padding: 0.5rem;
+	margin-left: 0.5rem;
+}
+
+.quantity-modal button {
+	width: 28rem;
+	height: 4rem;
+	border-radius: 0.5rem;
+	margin-top: 1rem;
+	cursor: pointer;
+	background-color: var(--white);
+	border: 0.3rem solid var(--orange);
+	font-weight: bold;
+}
+
+.quantity-modal p button:nth-child(3) {
+	margin-top: 3rem;
+	background-color: var(--orange);
+	color: var(--white);
+	border: none;
+}
+
+.quantity-modal p button:nth-child(3):active {
+	background-color: var(--dark-green);
+	color: var(--black);
+}
+
+.quantity-modal p button:nth-child(4):active {
+	background-color: var(--input-color);
+	border: none;
+}
+
+.quantity-modal span {
+	margin-left: 0.5rem;
+}
