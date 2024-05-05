@@ -72,6 +72,7 @@ function addProductsToList(data) {
       selection_list.appendChild(li);
     }
   });
+  console.log(productsArray);
 }
 
 
@@ -79,6 +80,7 @@ export default function Home() {
   const [newProductDisplay, setNewProductDisplay] = useState({display:"none"});
   const [quantityModalDisplay, setQuantityModalDisplay] = useState({display:"none"});
   const [currentValue, setCurrentValue] = useState('default');
+  const [selectedProduct, setSelectedProduct] = useState({});
   // Accesing elements on DOM
   // const shores_list = document.getElementById('shores_list');
   // const div = document.querySelector('.quantity-modal');
@@ -86,10 +88,11 @@ export default function Home() {
 
   // Event to show add new product modal
   const selectProductEvent = (event) => {
-    let a = event.target.value;
-    console.log(a);
-    setCurrentValue(a);
-    console.log(currentValue);
+    setCurrentValue(event.target.value);
+    // let productToUpdate = productsArray.find(item => item["name"] == event.target.value);
+    setSelectedProduct(productsArray.find(item => item["name"] == event.target.value));
+    // console.log(productToUpdate);
+    // console.log(selectedProduct);
     setQuantityModalDisplay({display:"flex"});
   }
 
@@ -171,6 +174,8 @@ export default function Home() {
       setQuantityModalDisplay={setQuantityModalDisplay}
       currentValue={currentValue}
       setCurrentValue={setCurrentValue}
+      selectedProduct={selectedProduct}
+      setSelectedProduct={setSelectedProduct}
     />
     <AddProductToDatabase
       newProductDisplay = {newProductDisplay}
