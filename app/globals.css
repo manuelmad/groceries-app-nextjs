@@ -6,7 +6,6 @@
 
 html {
 	font-size: 62.5%;
-	/* background-color: var(--light-orange); */
 }
 
 :root {
@@ -170,7 +169,6 @@ section {
 	height: 4rem;
 	border-radius: 0.5rem;
 	cursor: pointer;
-	/* margin-top: 17rem; */
 	background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%);
 	color: var(--white);
 	border: none;
@@ -193,7 +191,6 @@ section {
   }
   
   .tomato-img {
-      width: 25rem;
       left: 75%;
   }
   
@@ -205,7 +202,7 @@ section {
 @media (min-width: 1024) {
   .imgs-container {
     width: 80rem;
-      left: calc(50% - 40rem);
+    left: calc(50% - 40rem);
   }
   
   .banana-img {

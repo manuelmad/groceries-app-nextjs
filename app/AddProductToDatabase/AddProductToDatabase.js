@@ -1,11 +1,7 @@
-// 'use client';
-
 import "./AddProductToDatabase.css";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase-config";
 import { productsArray } from "../page";
-
-// import { useEffect } from "react";
 
 export function AddProductToDatabase({
     newProductDisplay,

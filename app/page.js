@@ -1,6 +1,5 @@
 'use client';
 import Image from "next/image";
-// import styles from "./page.module.css";
 
 import { useEffect } from "react";
 import { useState } from "react";
@@ -10,7 +9,6 @@ import { db } from "./firebase/firebase-config";
 
 import { AddProductToDatabase } from "./AddProductToDatabase/AddProductToDatabase.js";
 import { UpdateShoppingList } from "./UpdateShoppingList/UpdateShoppingList";
-// import { updateShoppingList } from "./UpdateShoppingList/UpdateShoppingList";
 
 // Icon to delete a product from the shopping list
 const x_icon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -20,7 +18,6 @@ const x_icon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" f
 
 // Array with all products in data base
 export let productsArray = [];
-// export const shores_list = document.getElementById('shores_list');
 
 // Function to add all products to the dropdown list and show the products with quantity > 0 in the shopping list
 function addProductsToList(data) {
@@ -72,7 +69,6 @@ function addProductsToList(data) {
       selection_list.appendChild(li);
     }
   });
-  console.log(productsArray);
 }
 
 
@@ -89,10 +85,7 @@ export default function Home() {
   // Event to show add new product modal
   const selectProductEvent = (event) => {
     setCurrentValue(event.target.value);
-    // let productToUpdate = productsArray.find(item => item["name"] == event.target.value);
     setSelectedProduct(productsArray.find(item => item["name"] == event.target.value));
-    // console.log(productToUpdate);
-    // console.log(selectedProduct);
     setQuantityModalDisplay({display:"flex"});
   }
 
