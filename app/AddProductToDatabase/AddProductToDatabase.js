@@ -28,6 +28,12 @@ export function AddProductToDatabase({
             return;
         }
 
+        // If name includes "/", stop the process, because it affects the database administration
+        if(newName.indexOf("/")) {
+            alert(`El nombre del producto no puede contener el caracter "/".`);
+            return;
+        }
+
         // Quantity has to be 0 or greater
         if(newQuantity < 0) {
             alert("Por favor, introduzca una cantidad mayor o igual a cero.");
