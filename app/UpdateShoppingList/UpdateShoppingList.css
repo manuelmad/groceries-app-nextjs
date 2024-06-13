@@ -1,5 +1,6 @@
 .quantity-modal {
-	position: absolute;
+	/* position: absolute; */
+	position: fixed;
 	top: 0;
 	left: 0;
 	background-color: var(--background-shadow);
