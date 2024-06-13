@@ -29,7 +29,7 @@ export function AddProductToDatabase({
         }
 
         // If name includes "/", stop the process, because it affects the database administration
-        if(newName.indexOf("/")) {
+        if(newName.indexOf("/") !== -1) {
             alert(`El nombre del producto no puede contener el caracter "/".`);
             return;
         }
@@ -52,7 +52,8 @@ export function AddProductToDatabase({
         setDoc(doc(db, 'products', newName), {
             name: newName,
             measurement: newMeasurement,
-            quantity: Number(newQuantity)
+            quantity: Number(newQuantity),
+            price: 0
         });
 
         // Close modal
