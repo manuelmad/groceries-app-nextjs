@@ -107,19 +107,19 @@ section {
 	font-size: var(--medium-font);
 }
 
-.selection-section {
+.selection-section, .estimated-cost-section {
 	margin-top: 4rem;
 	border-radius: 1rem;
 	background: linear-gradient(-180deg, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
 	padding: 2rem 0;
 }
 
-.selection-section h2 {
+.selection-section h2, .estimated-cost-section h2 {
 	text-align: center;
 	font-size: var(--large-font);
 }
 
-#selection_list {
+#selection_list, #estimated_cost {
 	min-height: 10rem;
 	padding: 1rem;
 }

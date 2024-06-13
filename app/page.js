@@ -20,6 +20,8 @@ const x_icon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" f
 // Array with all products in data base
 export let productsArray = [];
 
+let estimated_cost = 0;
+
 // Function to add all products to the dropdown list and show the products with quantity > 0 in the shopping list
 function addProductsToList(data) {
   // Clean the list ul, array of products and the showed list
@@ -32,6 +34,8 @@ function addProductsToList(data) {
   defaultOption.innerText = "--------";
   defaultOption.value = "default";
   shores_list.appendChild(defaultOption);
+
+  estimated_cost = 0;
 
   // Add an option to the select for every document in the database
   data.forEach(item => {
@@ -68,6 +72,9 @@ function addProductsToList(data) {
 
       li.appendChild(span_x);
       selection_list.appendChild(li);
+
+      // let estimated_cost = 0;
+      estimated_cost = estimated_cost + product["price"]*product["quantity"];
     }
   });
 }
@@ -78,6 +85,7 @@ export default function Home() {
   const [quantityModalDisplay, setQuantityModalDisplay] = useState({display:"none"});
   const [currentValue, setCurrentValue] = useState('default');
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [estimatedCost, setEstimatedCost] = useState(0);
   // Accesing elements on DOM
   // const shores_list = document.getElementById('shores_list');
   // const div = document.querySelector('.quantity-modal');
@@ -102,6 +110,7 @@ export default function Home() {
     // Listen to the current collection and get changes everytime a document is updated, created or deleted to update the dropdown list and the shopping list
     onSnapshot(productsCollection, (snapshot)=>{
       addProductsToList(snapshot.docs);
+      setEstimatedCost(estimated_cost.toFixed(2));
     });
 
   },[]);
@@ -146,7 +155,10 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <ShowEstimatedCost/>
+        <ShowEstimatedCost
+          estimatedCost={estimatedCost}
+          setEstimatedCost={setEstimatedCost}
+        />
         <section className="add-product__section">
           <Image
             className="cheese-img"
