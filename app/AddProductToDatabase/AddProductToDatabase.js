@@ -17,10 +17,12 @@ export function AddProductToDatabase({
         const new_product_name = document.getElementById("new_product_name");
         const new_product_measurement = document.getElementById("new_product_measurement");
         const new_product_quantity = document.getElementById("new_product_quantity");
+        const new_product_price = document.getElementById("new_product_price");
 
         let newName = new_product_name.value;
         let newMeasurement = new_product_measurement.value;
         let newQuantity = new_product_quantity.value;
+        let newPrice = new_product_price.value;
 
         // If nameless product, stop the process
         if(newName == "") {
@@ -53,7 +55,7 @@ export function AddProductToDatabase({
             name: newName,
             measurement: newMeasurement,
             quantity: Number(newQuantity),
-            price: 0
+            price: Number(newPrice)
         });
 
         // Close modal
@@ -76,6 +78,8 @@ export function AddProductToDatabase({
                 </p>
                 <p>Ingrese cantidad de unidades del producto (opcional):</p>
                 <p><input type="number" id="new_product_quantity"></input></p>
+                <p>Ingrese precio unitario del producto en Dólares (opcional):</p>
+                <p><input type="number" id="new_product_price"></input></p>
                 <p>
                     <button id="new_product_btn" onClick={addNewProductToDatabase}>Agregar producto</button>
                 </p>
